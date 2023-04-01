@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
+const geocodeAddress = require('./geo');
+const synthesizeSpeech = require('./text-to-speech');
 const { createConnectionPool, getAllOrase, postOrase, putOrase, deleteOrase } = require('./db');
 const app = express();
 
@@ -57,8 +59,26 @@ app.delete('/orase/:id', async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.status(200).send("testnou!").end();
+app.get('/synthesize', async (req, res) => {
+  const text = "Hello World";
+  try {
+    const audioContent = await synthesizeSpeech(text);
+    res.setHeader('Content-Type', 'audio/mpeg');
+    res.send(audioContent);
+  } catch (error) {
+    console.error(`Error synthesizing text: ${error.message}`);
+    res.status(500).send(`Error synthesizing text: ${error.message}`);
+  }
+});
+
+app.get("/", async (req, res) => {
+  const address = "Iasi";
+  try {
+    const location = await geocodeAddress(address);
+    res.send(`<h1>Location Information</h1><p>Address: ${address}</p><p>Latitude: ${location.latitude}</p><p>Longitude: ${location.longitude}</p>`);
+  } catch (error) {
+    res.status(500).send(`Error retrieving location information: ${error.message}`);
+  }
 });
 
 const PORT = parseInt(process.env.PORT) || 8080;
