@@ -1,8 +1,14 @@
 runtime: nodejs
 env: flex
 
+env_variables: 
+  CLOUD_SQL_USERNAME: developer
+  CLOUD_SQL_DATABASE_NAME: orasedb
+  CLOUD_SQL_CONNECTION_NAME: cloud-computing-382208:europe-west2:orase
+
 manual_scaling:
   instances: 1
+
 resources:
   cpu: 1
   memory_gb: 0.5
