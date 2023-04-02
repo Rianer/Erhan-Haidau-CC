@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const geocodeAddress = require("./geo");
 const synthesizeSpeech = require("./text-to-speech");
+const cors = require("cors");
 const {
   createConnectionPool,
   getAllOrase,
@@ -12,7 +13,7 @@ const {
 const app = express();
 
 app.use(bodyParser.json());
-
+app.use(cors());
 app.get("/orase", async (req, res) => {
   try {
     const orase = await getAllOrase();
