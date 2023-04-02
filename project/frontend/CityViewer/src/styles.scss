@@ -1,1 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+  font-family: 'Roboto Mono', monospace;
+
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: #fff !important;
+  font-family: 'Roboto Mono', monospace;
+}
+
+input,
+button {
+  font-family: 'Roboto Mono', monospace;
+  color: #e6ecff;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+body {
+  left: 0;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  background-color: #9999FF;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23a3a6ff' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%23adb3ff' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%23b8bfff' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%23c2ccff' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%23CCD9FF' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E");
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.custom-file-input::before {
+
+  content: 'Select';
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  margin-right: -50px;
+  font-size: 16px;
+  transition: 300ms;
+
+}
+
+.custom-file-input:hover::before {
+  color: white;
+  background-color: #9999ff;
+}
+
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
