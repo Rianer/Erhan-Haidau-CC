@@ -1,6 +1,6 @@
+service: frontend-component
 runtime: custom
 env: flex
-service: angular-ui-dev
 threadsafe: true
 
 env_variables:

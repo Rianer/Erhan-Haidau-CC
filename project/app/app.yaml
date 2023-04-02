@@ -1,3 +1,4 @@
+service: backend-component
 runtime: nodejs
 env: flex
 
