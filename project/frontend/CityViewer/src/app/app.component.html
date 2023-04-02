@@ -1,29 +1,26 @@
 <div class="content-wrapper">
   <div class="side-bar">
     <div class="user-section">
-      <form [formGroup]="userDataForm">
+      <form [formGroup]="cityDataForm">
+        <h3>Provide location:</h3>
         <div class="form-field">
-          <label>Your name:</label>
-          <input formControlName="name" type="text" />
+          <label>City:</label>
+          <input formControlName="nume" type="text" />
         </div>
         <div class="form-field">
           <label>Country:</label>
-          <input formControlName="city" type="text" />
-        </div>
-        <div class="form-field">
-          <label>City:</label>
-          <input formControlName="country" type="text" />
+          <input formControlName="tara" type="text" />
         </div>
         <div class="form-field">
           <button (click)="onSubmit()">Submit</button>
         </div>
       </form>
-      <h3>Your Data:</h3>
+      <!-- <h3>Your Data:</h3>
       <ul class="user-data-list">
         <li>Name: <span class="value">John Doe</span></li>
         <li>Location: <span class="value">Iasi, Romania</span></li>
         <li>Geolocation: <span class="value">48 47</span></li>
-      </ul>
+      </ul> -->
     </div>
     <div class="user-section img-upload">
       <h3>Upload an image:</h3>
@@ -45,19 +42,34 @@
   </div>
   <div class="content">
     <div class="coordinates">
-      <h4>Selected city geolocation:</h4>
-      <p>location</p>
-    </div>
-    <div class="images">
-      <div class="controllers">
-        <h4>Images</h4>
-        <button *ngIf="allowFetchImages()" (click)="showImageList()">
-          Show all images
-        </button>
+      <h4>
+        <i
+          (click)="refreshAllCities()"
+          id="refresh-cities-button"
+          class="fas fa-redo-alt"
+        ></i>
+        Previous cities geolocations:
+      </h4>
+      <div *ngFor="let city of citiesList" class="city-details">
+        <div>{{ city.nume }}</div>
+        <div>{{ city.tara }}</div>
+        <div>{{ city.latitude }}</div>
+        <div>{{ city.longitude }}</div>
+        <div>
+          <i (click)="setAudio(city)" class="fas fa-volume-up play-audio"></i>
+        </div>
       </div>
-      <ul>
-        <li *ngFor="let img of imageList">{{ img.name }}</li>
-      </ul>
+      <div class="images">
+        <div class="controllers">
+          <h4>Images</h4>
+          <button *ngIf="allowFetchImages()" (click)="showImageList()">
+            Show all images
+          </button>
+        </div>
+        <ul>
+          <li *ngFor="let img of imageList">{{ img.name }}</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

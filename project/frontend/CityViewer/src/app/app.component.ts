@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { CityModel } from 'src/models/cityModel';
 import { FileNameModel } from 'src/models/fileNames';
 import { UserDataModel } from 'src/models/userData';
+import { AudioService } from 'src/services/audioService/audio.service';
+import { CityService } from 'src/services/citiesService/city.service';
 import { ImageService } from 'src/services/imagesService/image.service';
-import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'app-root',
@@ -14,24 +16,27 @@ import * as fileSaver from 'file-saver';
 export class AppComponent implements OnInit {
   title = 'CityViewer';
   webapiurl = environment.webapiurl;
-  currentUserData: UserDataModel;
-  userDataForm: FormGroup;
+  currentCity: CityModel = new CityModel();
+  audioSource: any;
+  cityDataForm: FormGroup;
   imageList: FileNameModel[];
+  citiesList: CityModel[];
   savingImageName: string;
 
-  constructor(private fg: FormBuilder, private imgService: ImageService) {}
+  constructor(
+    private fg: FormBuilder,
+    private imgService: ImageService,
+    private cityService: CityService,
+    private audioService: AudioService
+  ) {}
 
   ngOnInit(): void {
-    this.userDataForm = this.fg.group({
-      name: '',
-      country: '',
-      city: '',
+    this.cityDataForm = this.fg.group({
+      tara: '',
+      nume: '',
     });
-    this.userDataForm.valueChanges.subscribe();
-  }
-
-  onSubmit(): void {
-    console.log(this.userDataForm.value);
+    this.cityDataForm.valueChanges.subscribe();
+    this.refreshAllCities();
   }
 
   showImageList(): void {
@@ -71,5 +76,49 @@ export class AppComponent implements OnInit {
         }
       );
     }
+  }
+
+  refreshAllCities(): void {
+    this.cityService.getAllCities().subscribe((res) => {
+      this.citiesList = res;
+    });
+  }
+
+  getCityGeolocation() {
+    this.currentCity.nume = this.cityDataForm.value.nume;
+    this.currentCity.tara = this.cityDataForm.value.tara;
+    this.cityService.getGeolocation(this.currentCity.nume).subscribe((res) => {
+      this.currentCity.latitude = res.latitude;
+      this.currentCity.longitude = res.longitude;
+    });
+  }
+
+  uploadCity() {
+    this.cityService.postCity(this.currentCity).subscribe((res) => {
+      this.currentCity = res;
+      console.log(this.currentCity);
+      this.refreshAllCities();
+      this.currentCity = new CityModel();
+    });
+  }
+
+  onSubmit(): void {
+    this.currentCity.nume = this.cityDataForm.value.nume;
+    this.currentCity.tara = this.cityDataForm.value.tara;
+    this.cityService.getGeolocation(this.currentCity.nume).subscribe((res) => {
+      this.currentCity.latitude = res.latitude;
+      this.currentCity.longitude = res.longitude;
+      this.uploadCity();
+    });
+  }
+
+  setAudio(city: CityModel): void {
+    const text = 'The city of ' + city.nume + ' from ' + city.tara;
+    this.audioService.getAudio(text).subscribe((res) => {
+      console.log(res);
+      let blob: any = new Blob([res], { type: res.type });
+      const url = window.URL.createObjectURL(blob);
+      window.open(url);
+    });
   }
 }

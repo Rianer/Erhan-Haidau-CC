@@ -122,11 +122,20 @@
       margin-left: 2rem;
     }
 
+    .city-details {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 1rem;
+
+      div {
+        margin-right: 10px;
+      }
+    }
   }
 
   .images {
     margin: 4rem 0;
-    color: #ccd9ff;
+    color: #0a0d16;
     backdrop-filter: blur(10px);
 
     .controllers {
@@ -152,4 +161,21 @@
       }
     }
   }
+}
+
+#refresh-cities-button {
+  cursor: pointer;
+  transition: 150ms ease;
+}
+
+#refresh-cities-button:hover {
+  color: green;
+}
+
+audio {
+  display: none;
+}
+
+.play-audio {
+  cursor: pointer;
 }
